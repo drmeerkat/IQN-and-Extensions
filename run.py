@@ -143,7 +143,7 @@ if __name__ == "__main__":
         envs = MultiPro.SubprocVecEnv([lambda: gym.make(args.env) for i in range(args.worker)])
         eval_env = gym.make(args.env)
     elif args.env == "SpaceInvadersToyboxNoFrameskip-v4":
-        from space_invaders_feature_vec_wrapper import SpaceInvadersFeatureVecWrapper
+        from space_invader_wrappers.space_invaders_feature_vec_wrapper import SpaceInvadersFeatureVecWrapper
         envs = MultiPro.SubprocVecEnv([lambda: SpaceInvadersFeatureVecWrapper(gym.make(args.env)) for _ in range(args.worker)])
         eval_env = gym.make(args.env)
         eval_env = SpaceInvadersFeatureVecWrapper(eval_env)
