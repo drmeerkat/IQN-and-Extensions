@@ -115,13 +115,14 @@ if __name__ == "__main__":
     parser.add_argument("-g", "--gamma", type=float, default=0.99, help="Discount factor gamma, default = 0.99")
     parser.add_argument("-t", "--tau", type=float, default=1e-3, help="Soft update parameter tau, default = 1e-3")
     parser.add_argument("-eps_frames", type=int, default=1000000, help="Linear annealed frames for Epsilon, default = 1mio")
-    parser.add_argument("-min_eps", type=float, default = 0.01, help="Final epsilon greedy value, default = 0.01")
+    parser.add_argument("-min_eps", type=float, default=0.01, help="Final epsilon greedy value, default = 0.01")
+    parser.add_argument("-path_base", type=str, default="/usrs/mli115/scratch/iqn-runs/", help="Base name of log path")
     parser.add_argument("-info", type=str, help="Name of the training run")
     parser.add_argument("-save_model", type=int, choices=[0,1], default=1, help="Specify if the trained network shall be saved or not, default is 1 - save model!")
     parser.add_argument("-w", "--worker", type=int, default=1, help="Number of parallel Environments. Batch size increases proportional to number of worker. not recommended to have more than 4 worker, default = 1")
 
     args = parser.parse_args()
-    writer = SummaryWriter("runs/"+args.info)       
+    writer = SummaryWriter(args.path_base+args.info)       
     seed = args.seed
     BUFFER_SIZE = args.memory_size
     BATCH_SIZE = args.batch_size
