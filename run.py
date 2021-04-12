@@ -119,7 +119,7 @@ if __name__ == "__main__":
     parser.add_argument("-min_eps", type=float, default=0.01, help="Final epsilon greedy value, default = 0.01")
     parser.add_argument("-save_model", type=int, choices=[0,1], default=1, help="Specify if the trained network shall be saved or not, default is 1 - save model!")
     parser.add_argument("-w", "--worker", type=int, default=1, help="Number of parallel Environments. Batch size increases proportional to number of worker. not recommended to have more than 4 worker, default = 1")
-    parser.add_argument("-path_base", type=str, default="/usrs/mli115/scratch/iqn-runs/", help="Base name of log path")
+    parser.add_argument("-path_base", type=str, default="/users/mli115/scratch/iqn-runs/", help="Base name of log path")
     # Non-default parameters
     parser.add_argument("-info", type=str, help="Name of the training run")
 
