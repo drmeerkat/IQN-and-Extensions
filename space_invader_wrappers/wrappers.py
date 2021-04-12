@@ -9,11 +9,12 @@ from toybox.envs.atari.base import ToyboxBaseEnv
 # thin layer for feature-based toybox environment
 # ToyboxBaseEnv is already a gym wrapper as a subclass of gym.atari.AtariEnv
 class FeatureVecWrapper(gym.ObservationWrapper):
-    def __init__(self, tbenv: ToyboxBaseEnv):
+    def __init__(self, tbenv: ToyboxBaseEnv, verbose=0):
         super().__init__(tbenv)
         self.env = tbenv
         # note: self.env is a toybox.env and will also have its own self.env.toybox
         self.toybox = tbenv.toybox
+        self.verbose = verbose
 
     # abstract method for gym.ObservationWrapper
     # this can be a good place to return a custom state feature vector
@@ -47,7 +48,8 @@ class FeatureVecWrapper(gym.ObservationWrapper):
         self.env.toybox.apply_action(action_input)
 
         if self.toybox.game_over():
-            print("GAME OVER")
+            if self.verbose:
+                print("GAME OVER")
             info["cached_state"] = self.toybox.to_state_json()
 
         obs_state_vec = self.observation(1)

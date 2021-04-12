@@ -77,10 +77,10 @@ def run(frames=1000, eps_fixed=False, eps_frames=1e6, min_eps=0.01, eval_every=1
         if done.any():
             scores_window.append(score)       # save most recent score
             scores.append(score)              # save most recent score
-            writer.add_scalar("Average100", np.mean(scores_window), frame*worker)
-            print('\rEpisode {}\tFrame {} \tAverage100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)), end="")
+            writer.add_scalar("Average 100", np.mean(scores_window), frame*worker)
+            print('\rEpisode {}\tFrame {} \tAverage 100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)), end="")
             if i_episode % 100 == 0:
-                print('\rEpisode {}\tFrame {}\tAverage100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)))
+                print('\rEpisode {}\tFrame {}\tAverage 100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)))
             i_episode +=1 
             state = envs.reset()
             score = 0              
