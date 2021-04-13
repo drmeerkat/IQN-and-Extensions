@@ -29,11 +29,12 @@ def evaluate(eps, frame, eval_runs=5):
                 break
         reward_batch.append(rewards)
         
-    writer.add_scalar("Reward", np.mean(reward_batch), frame)
+    writer.add_scalar("IQN/Eval Score", np.mean(reward_batch), frame)
+    writer.flush()
 
 
 
-def run(frames=1000, eps_fixed=False, eps_frames=1e6, min_eps=0.01, eval_every=1000, eval_runs=5, worker=1):
+def run(frames=1000, eps_fixed=False, eps_frames=1e6, min_eps=0.01, eval_every=1000, eval_runs=5, worker=1, save_model=True, save_path='model.pth'):
     """Deep Q-Learning.
     
     Params
@@ -73,11 +74,15 @@ def run(frames=1000, eps_fixed=False, eps_frames=1e6, min_eps=0.01, eval_every=1
         # evaluation runs
         if frame % eval_every == 0 or frame == 1:
             evaluate(eps, frame*worker, eval_runs)
+            if save_model and len(save_path) > 0:
+                torch.save(agent.qnetwork_local.state_dict(), save_path)
         
         if done.any():
             scores_window.append(score)       # save most recent score
             scores.append(score)              # save most recent score
-            writer.add_scalar("Average 100", np.mean(scores_window), frame*worker)
+            writer.add_scalar("IQN/Avg 100 score", np.mean(scores_window), frame*worker)
+            writer.add_scalar("IQN/Episode Cnt", i_episode*worker, frame*worker)
+            writer.flush()
             print('\rEpisode {}\tFrame {} \tAverage 100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)), end="")
             if i_episode % 100 == 0:
                 print('\rEpisode {}\tFrame {}\tAverage 100 Score: {:.2f}'.format(i_episode*worker, frame*worker, np.mean(scores_window)))
@@ -182,9 +187,9 @@ if __name__ == "__main__":
         eps_fixed = False
 
     t0 = time.time()
-    run(frames = args.frames//args.worker, eps_fixed=eps_fixed, eps_frames=args.eps_frames//args.worker, min_eps=args.min_eps, eval_every=args.eval_every//args.worker, eval_runs=args.eval_runs, worker=args.worker)
+    run(frames = args.frames//args.worker, eps_fixed=eps_fixed, eps_frames=args.eps_frames//args.worker, min_eps=args.min_eps, eval_every=args.eval_every//args.worker, eval_runs=args.eval_runs, worker=args.worker, save_model=args.save_model, save_path=args.path_base + args.info + "/model.pth")
     t1 = time.time()
     
     print("Training time: {}min".format(round((t1-t0)/60,2)))
     if args.save_model:
-        torch.save(agent.qnetwork_local.state_dict(), args.info+".pth")
+        torch.save(agent.qnetwork_local.state_dict(), args.path_base + args.info + "/final.pth")

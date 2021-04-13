@@ -109,7 +109,8 @@ class IQN_Agent():
                 else:
                     loss = self.learn_per(experiences)
                 self.Q_updates += 1
-                writer.add_scalar("Q_loss", loss, self.Q_updates)
+                writer.add_scalar("IQN/Q_loss", loss, self.Q_updates)
+                writer.flush()
 
     def act(self, state, eps=0., eval=False):
         """Returns actions for given state as per current policy. Acting only every 4 frames!
