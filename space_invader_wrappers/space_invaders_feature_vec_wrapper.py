@@ -39,7 +39,7 @@ class SpaceInvadersFeatureVecWrapper(FeatureVecWrapper):
     def __init__(self, tbenv):
         assert type(tbenv) == SpaceInvadersEnv
         tbenv.observation_space = Box(low=-float('inf'), high=float('inf'), shape=(12,))
-        super().__init__(tbenv)
+        super().__init__(tbenv, verbose=0)
 
     def observation(self, observation):
         """
