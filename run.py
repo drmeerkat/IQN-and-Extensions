@@ -7,6 +7,7 @@ import argparse
 import wrapper
 import MultiPro
 import toybox
+from datetime import datetime
 from collections import deque
 from torch.utils.tensorboard import SummaryWriter
 
@@ -129,6 +130,7 @@ if __name__ == "__main__":
     parser.add_argument("-info", type=str, help="Name of the training run")
 
     args = parser.parse_args()
+    args.info += datetime.now().strftime("-%Y%m%d-%H%M%S")
     writer = SummaryWriter(args.path_base + args.info)       
     seed = args.seed
     BUFFER_SIZE = args.memory_size
